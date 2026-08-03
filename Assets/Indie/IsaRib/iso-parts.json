@@ -1,0 +1,10 @@
+{
+  "file": "tboirpsp0301.iso",
+  "size": 134742016,
+  "sha256": "bf31cfa1a81d857545071a45a9d4e61ccbb98ce39b26e60ef47215bb22573420",
+  "parts": [
+    "tboirpsp0301.iso.part0",
+    "tboirpsp0301.iso.part1",
+    "tboirpsp0301.iso.part2"
+  ]
+}
