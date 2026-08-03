@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#08080a">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>Chosevn</title>
+<link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk@5/index.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk@5/index.css"></noscript>
+
+<script>
+try {
+  var t = localStorage.getItem('choseven_theme');
+  if (t) {
+    var theme = JSON.parse(t);
+    document.documentElement.dataset.theme = theme;
+    if (theme === 'light') document.documentElement.style.background = '#f4efe4';
+    else if (theme === 'simple') document.documentElement.style.background = '#131316';
+  }
+  var a = localStorage.getItem('choseven_accentColor');
+  if (a) document.documentElement.style.setProperty('--accent', JSON.parse(a));
+} catch (e) {}
+if (sessionStorage.getItem('__c7k')) document.documentElement.classList.add('hk');
+</script>
+
+<style>
+:root{
+  --white:  #f5f5f6;
+  --dim:    #74747a;
+  --bg:     #08080a;
+  --bg-2:   #0d0d10;
+  --border: #1c1c20;
+  --border-2:#2a2a30;
+  --accent: #ff3b3b;
+  --ok:     #35d483;
+}
+html[data-theme="simple"]{--white:#f0f0f1;--dim:#9a9aa0;--bg:#131316;--bg-2:#17171b;--border:#28282d;--border-2:#38383f;--accent:#d6dde4}
+html[data-theme="light"] {--white:#1a1813;--dim:#6b6557;--bg:#f4efe4;--bg-2:#fbf8f0;--border:#e3dbc8;--border-2:#d3c9b1;--accent:#c0552c}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:var(--bg);overflow:hidden}
+body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:26px;
+  color:var(--white);
+  font-family:'Space Grotesk Variable','Space Grotesk',system-ui,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+.top-rule{position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent) 50%,transparent);opacity:0.5}
+
+.eyebrow{font-weight:500;font-size:11px;color:var(--white);letter-spacing:0.4em;text-indent:0.4em;border:1px solid var(--border-2);border-radius:4px}
+.eyebrow{padding:6px 18px}
+
+.box-row{display:flex;flex-direction:column;align-items:center;gap:14px}
+.box{
+  width:420px;
+  height:130px;
+  font-family:inherit;
+  font-size:22px;
+  text-align:center;
+  border:1px solid var(--border-2);
+  border-radius:10px;
+  background:var(--bg-2);
+  color:var(--white);
+  outline:none;
+  transition:border-color .15s;
+}
+.box::placeholder{color:var(--dim)}
+.box:focus{border-color:var(--accent)}
+
+.msg{
+  min-height:16px;
+  font-size:12px;
+  letter-spacing:0.05em;
+  color:transparent;
+}
+.msg.err{color:var(--accent)}
+.msg.ok{color:var(--ok)}
+
+.loader{
+  display:none;
+  flex-direction:column;
+  width:420px;
+  gap:12px;
+}
+.loader-track{height:6px;background:var(--border);border-radius:4px;position:relative;overflow:hidden}
+.loader-fill{height:100%;width:0;background:var(--accent);border-radius:4px;box-shadow:0 0 12px color-mix(in srgb, var(--accent) 45%, transparent)}
+.loader-meta{display:flex;align-items:center;justify-content:space-between;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim)}
+.loader-meta .pct{color:var(--white);font-variant-numeric:tabular-nums}
+
+.hk .box-row{display:none}
+.hk .msg{display:none}
+.hk .loader{display:flex}
+</style>
+</head>
+<body>
+
+<div class="top-rule"></div>
+<div class="eyebrow">CHOSEVN &middot; VERIFY</div>
+
+<div class="box-row" id="fa">
+  <input class="box" id="k" type="password" autocomplete="off" spellcheck="false" placeholder="Enter Key">
+</div>
+<div class="msg" id="s"></div>
+
+<div class="loader" id="loader">
+  <div class="loader-track"><div class="loader-fill" id="lf"></div></div>
+  <div class="loader-meta"><span>Loading</span><span class="pct" id="pct">0%</span></div>
+</div>
+
+<script>
+var _B="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";
+function _dec(b,k){
+  var raw=atob(b),bytes=new Uint8Array(raw.length);
+  for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);
+  var kk=[];for(var i=0;i<k.length;i++)kk.push(k.charCodeAt(i));
+  var out=new Uint8Array(bytes.length);
+  for(var i=0;i<bytes.length;i++)out[i]=bytes[i]^kk[i%kk.length];
+  return new TextDecoder().decode(out);
+}
+function _launch(html){
+  var base=location.href.slice(0, location.href.lastIndexOf('/')+1);
+  var out=/<head[^>]*>/i.test(html)
+    ? html.replace(/<head([^>]*)>/i, '<head$1><base href="'+base+'">')
+    : html.replace(/<html[^>]*>/i, '$&<head><base href="'+base+'"></head>');
+  var f=document.createElement('iframe');
+  f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;background:var(--bg);opacity:0;transition:opacity .25s ease;z-index:10';
+  f.setAttribute('allow','fullscreen; autoplay; gamepad; clipboard-write; encrypted-media; picture-in-picture');
+  f.setAttribute('allowfullscreen','');
+  var revealed=false, revealTimer=setTimeout(reveal, 2500);
+  function reveal(){
+    if(revealed) return; revealed=true;
+    clearTimeout(revealTimer);
+    f.style.opacity='1';
+  }
+  function syncUrl(){
+    // The launched page runs in a nested iframe (its own window, no address bar of
+    // its own), so its internal navigations never touch the visible URL. Encoded
+    // pages can nest arbitrarily deep (an iframe per unlocked page), so always sync
+    // to window.top rather than the immediate parent.
+    try{
+      var innerHref=f.contentWindow.location.href;
+      if(innerHref && innerHref.indexOf('about:')!==0) window.top.history.replaceState(null,'',innerHref);
+    }catch(e){}
+  }
+  f.onload=function(){ reveal(); syncUrl(); };
+  document.body.appendChild(f);
+  f.srcdoc=out;
+}
+
+function _showLoader(then){
+  document.getElementById('fa').style.display='none';
+  document.getElementById('s').style.display='none';
+  document.getElementById('loader').style.display='flex';
+  var _lf=document.getElementById('lf');
+  var _pct=document.getElementById('pct');
+  var DURATION=900, start=performance.now(), done=false;
+  function tick(now){
+    var t=Math.min((now-start)/DURATION,1);
+    _lf.style.width=(t*100)+'%';
+    _pct.textContent=Math.round(t*100)+'%';
+    if(t<1) requestAnimationFrame(tick);
+    else if(!done){ done=true; then(); }
+  }
+  requestAnimationFrame(tick);
+}
+
+// AUTO PATH — session key already set
+if(document.documentElement.classList.contains('hk')){
+  var _key=sessionStorage.getItem('__c7k');
+  var _r=_dec(_B,_key);
+  if(_r.slice(0,6)!=='VALID:'){
+    sessionStorage.removeItem('__c7k');
+    document.documentElement.classList.remove('hk');
+  } else {
+    var _html=_r.slice(6);
+    _showLoader(function(){_launch(_html);});
+  }
+}
+
+// MANUAL PATH — user types key
+var _inp=document.getElementById('k');
+var _st=document.getElementById('s');
+
+function _attempt(){
+  var key=_inp.value.trim();
+  if(!key)return;
+  try{
+    var r=_dec(_B,key);
+    if(r.slice(0,6)!=='VALID:')throw 0;
+    sessionStorage.setItem('__c7k',key);
+    _st.className='msg ok';
+    _st.textContent='Verified';
+    var html=r.slice(6);
+    setTimeout(function(){
+      _showLoader(function(){_launch(html);});
+    }, 300);
+  }catch(e){
+    _st.className='msg err';
+    _st.textContent='Invalid Key';
+    _inp.value='';
+    _inp.focus();
+    setTimeout(function(){_st.className='msg';_st.textContent='';},2200);
+  }
+}
+if(_inp){_inp.focus();_inp.addEventListener('keydown',function(ev){if(ev.key==='Enter')_attempt();});}
+</script>
+</body>
+</html>
