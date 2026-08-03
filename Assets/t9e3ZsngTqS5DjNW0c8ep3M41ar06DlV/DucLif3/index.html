@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#08080a">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>Chosevn</title>
+<link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk@5/index.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk@5/index.css"></noscript>
+
+<script>
+try {
+  var t = localStorage.getItem('choseven_theme');
+  if (t) {
+    var theme = JSON.parse(t);
+    document.documentElement.dataset.theme = theme;
+    if (theme === 'light') document.documentElement.style.background = '#f4efe4';
+    else if (theme === 'simple') document.documentElement.style.background = '#131316';
+  }
+  var a = localStorage.getItem('choseven_accentColor');
+  if (a) document.documentElement.style.setProperty('--accent', JSON.parse(a));
+} catch (e) {}
+if (sessionStorage.getItem('__c7k')) document.documentElement.classList.add('hk');
+</script>
+
+<style>
+:root{
+  --white:  #f5f5f6;
+  --dim:    #74747a;
+  --bg:     #08080a;
+  --bg-2:   #0d0d10;
+  --border: #1c1c20;
+  --border-2:#2a2a30;
+  --accent: #ff3b3b;
+  --ok:     #35d483;
+}
+html[data-theme="simple"]{--white:#f0f0f1;--dim:#9a9aa0;--bg:#131316;--bg-2:#17171b;--border:#28282d;--border-2:#38383f;--accent:#d6dde4}
+html[data-theme="light"] {--white:#1a1813;--dim:#6b6557;--bg:#f4efe4;--bg-2:#fbf8f0;--border:#e3dbc8;--border-2:#d3c9b1;--accent:#c0552c}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:var(--bg);overflow:hidden}
+body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:26px;
+  color:var(--white);
+  font-family:'Space Grotesk Variable','Space Grotesk',system-ui,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+.top-rule{position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent) 50%,transparent);opacity:0.5}
+
+.eyebrow{font-weight:500;font-size:11px;color:var(--white);letter-spacing:0.4em;text-indent:0.4em;border:1px solid var(--border-2);border-radius:4px}
+.eyebrow{padding:6px 18px}
+
+.box-row{display:flex;flex-direction:column;align-items:center;gap:14px}
+.box{
+  width:420px;
+  height:130px;
+  font-family:inherit;
+  font-size:22px;
+  text-align:center;
+  border:1px solid var(--border-2);
+  border-radius:10px;
+  background:var(--bg-2);
+  color:var(--white);
+  outline:none;
+  transition:border-color .15s;
+}
+.box::placeholder{color:var(--dim)}
+.box:focus{border-color:var(--accent)}
+
+.msg{
+  min-height:16px;
+  font-size:12px;
+  letter-spacing:0.05em;
+  color:transparent;
+}
+.msg.err{color:var(--accent)}
+.msg.ok{color:var(--ok)}
+
+.loader{
+  display:none;
+  flex-direction:column;
+  width:420px;
+  gap:12px;
+}
+.loader-track{height:6px;background:var(--border);border-radius:4px;position:relative;overflow:hidden}
+.loader-fill{height:100%;width:0;background:var(--accent);border-radius:4px;box-shadow:0 0 12px color-mix(in srgb, var(--accent) 45%, transparent)}
+.loader-meta{display:flex;align-items:center;justify-content:space-between;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim)}
+.loader-meta .pct{color:var(--white);font-variant-numeric:tabular-nums}
+
+.hk .box-row{display:none}
+.hk .msg{display:none}
+.hk .loader{display:flex}
+</style>
+</head>
+<body>
+
+<div class="top-rule"></div>
+<div class="eyebrow">CHOSEVN &middot; VERIFY</div>
+
+<div class="box-row" id="fa">
+  <input class="box" id="k" type="password" autocomplete="off" spellcheck="false" placeholder="Enter Key">
+</div>
+<div class="msg" id="s"></div>
+
+<div class="loader" id="loader">
+  <div class="loader-track"><div class="loader-fill" id="lf"></div></div>
+  <div class="loader-meta"><span>Loading</span><span class="pct" id="pct">0%</span></div>
+</div>
+
+<script>
+var _B="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";
+function _dec(b,k){
+  var raw=atob(b),bytes=new Uint8Array(raw.length);
+  for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);
+  var kk=[];for(var i=0;i<k.length;i++)kk.push(k.charCodeAt(i));
+  var out=new Uint8Array(bytes.length);
+  for(var i=0;i<bytes.length;i++)out[i]=bytes[i]^kk[i%kk.length];
+  return new TextDecoder().decode(out);
+}
+function _launch(html){
+  var base=location.href.slice(0, location.href.lastIndexOf('/')+1);
+  var out=/<head[^>]*>/i.test(html)
+    ? html.replace(/<head([^>]*)>/i, '<head$1><base href="'+base+'">')
+    : html.replace(/<html[^>]*>/i, '$&<head><base href="'+base+'"></head>');
+  var f=document.createElement('iframe');
+  f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;background:var(--bg);opacity:0;transition:opacity .25s ease;z-index:10';
+  f.setAttribute('allow','fullscreen; autoplay; gamepad; clipboard-write; encrypted-media; picture-in-picture');
+  f.setAttribute('allowfullscreen','');
+  var revealed=false, revealTimer=setTimeout(reveal, 2500);
+  function reveal(){
+    if(revealed) return; revealed=true;
+    clearTimeout(revealTimer);
+    f.style.opacity='1';
+  }
+  function syncUrl(){
+    // The launched page runs in a nested iframe (its own window, no address bar of
+    // its own), so its internal navigations never touch the visible URL. Encoded
+    // pages can nest arbitrarily deep (an iframe per unlocked page), so always sync
+    // to window.top rather than the immediate parent.
+    try{
+      var innerHref=f.contentWindow.location.href;
+      if(innerHref && innerHref.indexOf('about:')!==0) window.top.history.replaceState(null,'',innerHref);
+    }catch(e){}
+  }
+  f.onload=function(){ reveal(); syncUrl(); };
+  document.body.appendChild(f);
+  f.srcdoc=out;
+}
+
+function _showLoader(then){
+  document.getElementById('fa').style.display='none';
+  document.getElementById('s').style.display='none';
+  document.getElementById('loader').style.display='flex';
+  var _lf=document.getElementById('lf');
+  var _pct=document.getElementById('pct');
+  var DURATION=900, start=performance.now(), done=false;
+  function tick(now){
+    var t=Math.min((now-start)/DURATION,1);
+    _lf.style.width=(t*100)+'%';
+    _pct.textContent=Math.round(t*100)+'%';
+    if(t<1) requestAnimationFrame(tick);
+    else if(!done){ done=true; then(); }
+  }
+  requestAnimationFrame(tick);
+}
+
+// AUTO PATH — session key already set
+if(document.documentElement.classList.contains('hk')){
+  var _key=sessionStorage.getItem('__c7k');
+  var _r=_dec(_B,_key);
+  if(_r.slice(0,6)!=='VALID:'){
+    sessionStorage.removeItem('__c7k');
+    document.documentElement.classList.remove('hk');
+  } else {
+    var _html=_r.slice(6);
+    _showLoader(function(){_launch(_html);});
+  }
+}
+
+// MANUAL PATH — user types key
+var _inp=document.getElementById('k');
+var _st=document.getElementById('s');
+
+function _attempt(){
+  var key=_inp.value.trim();
+  if(!key)return;
+  try{
+    var r=_dec(_B,key);
+    if(r.slice(0,6)!=='VALID:')throw 0;
+    sessionStorage.setItem('__c7k',key);
+    _st.className='msg ok';
+    _st.textContent='Verified';
+    var html=r.slice(6);
+    setTimeout(function(){
+      _showLoader(function(){_launch(html);});
+    }, 300);
+  }catch(e){
+    _st.className='msg err';
+    _st.textContent='Invalid Key';
+    _inp.value='';
+    _inp.focus();
+    setTimeout(function(){_st.className='msg';_st.textContent='';},2200);
+  }
+}
+if(_inp){_inp.focus();_inp.addEventListener('keydown',function(ev){if(ev.key==='Enter')_attempt();});}
+</script>
+</body>
+</html>
