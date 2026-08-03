@@ -1,0 +1,10 @@
+Got an itch.io API key from itch.io/user/settings/api-keys
+Found the game ID by viewing the page source (Ctrl+U) of the itch.io game page and searching for game_id or itch:path
+Listed the uploads for that game ID using the itch.io API:
+
+powershellInvoke-WebRequest -Uri "https://api.itch.io/games/GAME_ID/uploads" -Headers @{"Authorization"="Bearer YOUR_KEY"} -UseBasicParsing | Select-Object -ExpandProperty Content
+
+Found the HTML upload ID from the JSON response — look for the entry with "type":"html"
+Downloaded the zip using that upload ID:
+
+powershellInvoke-WebRequest -Uri "https://api.itch.io/uploads/UPLOAD_ID/download" -Headers @{"Authorization"="Bearer YOUR_KEY"} -UseBasicParsing -OutFile game.zip
