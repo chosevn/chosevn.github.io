@@ -1,7 +1,0 @@
-{
-  "name": "chosevn-servers",
-  "private": true,
-  "scripts": {
-    "start": "node start-all.js"
-  }
-}
